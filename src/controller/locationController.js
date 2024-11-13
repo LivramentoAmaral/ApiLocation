@@ -1,6 +1,7 @@
 // controllers/locationController.js
 const Location = require('../models/Location');
 
+// Função para salvar ou atualizar a localização (já existente)
 const saveLocation = async (req, res) => {
   const { latitude, longitude } = req.body;
 
@@ -9,12 +10,37 @@ const saveLocation = async (req, res) => {
   }
 
   try {
-    const location = new Location({ latitude, longitude });
-    await location.save();
-    res.status(201).json({ message: 'Location saved successfully', location });
+    let location = await Location.findOne();
+
+    if (location) {
+      location.latitude = latitude;
+      location.longitude = longitude;
+      await location.save();
+      res.status(200).json({ message: 'Location updated successfully', location });
+    } else {
+      location = new Location({ latitude, longitude });
+      await location.save();
+      res.status(201).json({ message: 'Location saved successfully', location });
+    }
   } catch (error) {
-    res.status(500).json({ error: 'Failed to save location' });
+    res.status(500).json({ error: 'Failed to save or update location' });
   }
 };
 
-module.exports = { saveLocation };
+// Função para pegar a última localização salva
+const getLocation = async (req, res) => {
+  try {
+    // Procura a localização mais recente
+    const location = await Location.findOne();
+    
+    if (!location) {
+      return res.status(404).json({ message: 'No location found' });
+    }
+
+    res.status(200).json({ location });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to retrieve location' });
+  }
+};
+
+module.exports = { saveLocation, getLocation };
