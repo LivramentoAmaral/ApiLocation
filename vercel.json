@@ -8,7 +8,7 @@
   ],
   "routes": [
     {
-      "src": "/feedback/((?!general).*)",
+      "src": "/api/(.*)",
       "dest": "src/index.js"
     },
     {
