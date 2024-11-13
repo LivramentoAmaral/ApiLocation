@@ -3,6 +3,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const locationRoutes = require('./routes/locationRoutes');
+const cors = require('cors'); // Importa o cors
+
 
 dotenv.config();
 
@@ -12,6 +14,7 @@ const port = process.env.PORT || 3000;
 // Middleware to parse JSON data
 app.use(express.json());
 
+app.use(cors()); // Habilita o cors
 // Routes
 app.use('/api', locationRoutes );
 
