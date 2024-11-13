@@ -4,6 +4,7 @@ const router = express.Router();
 const { saveLocation, getLocation } = require('../controller/locationController');
 
 // Rota POST para salvar ou atualizar a localização
+
 router.post('/location', saveLocation);
 
 // Rota GET para obter a última localização salva
