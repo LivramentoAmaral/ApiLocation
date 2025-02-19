@@ -15,3 +15,5 @@ router.post('/location', saveLocation);
 router.get('/location', getLocation);
 
 module.exports = router;
+
+// Path: src/controller/locationController.js
